@@ -31,7 +31,7 @@ export default createStore({
 
       Here we're doing commit instead of context.commit because
       we pulled commit out of the first argument of this fetchUser
-      action, which is store. 
+      action, which is context. 
 
       Action handlers receive a context object which exposes 
       the same set of methods/properties on the store instance, 
