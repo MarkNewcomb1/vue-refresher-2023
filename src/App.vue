@@ -6,34 +6,39 @@
   />
   <h1>{{firstName}} {{lastName}}</h1>
   <h3>Email: {{email}}</h3>
-  <button :class="gender" @click="getUser()">Get Random User</button>
+  <button :class="gender" @click="fetchUser()">Get Random User</button>
 </template>
 
 <script>
+import { mapActions, mapState } from 'vuex'
 
 export default {
   name: 'App',
-data() {
-    return {
-      firstName: 'John',
-      lastName: 'Doe',
-      email: 'john@gmail.com',
-      gender: 'male',
-      picture: 'https://randomuser.me/api/portraits/men/10.jpg',
-    }
-  },
-  methods: {
-    async getUser() {
-      const res = await fetch('https://randomuser.me/api')
-      const { results } = await res.json()
+ /*
+  when storing state in VueX, you bring it into
+  your component via computed instead of data
+ */
+  computed: mapState([
+    'firstName',
+    'lastName',
+    'email',
+    'gender',
+    'picture',
+  ]),
+  /*
+  mapActions, mapState, etc. return an object. If you want other
+  methods that aren't part of VueX, you do the 
+  object spread operator ...mapActions to copy properties from 
+  that object onto this one
+  */
 
-      this.firstName = results[0].name.first
-      this.lastName = results[0].name.last
-      this.email = results[0].email
-      this.gender = results[0].gender
-      this.picture = results[0].picture.large
-    },
-  },
+ /*
+  mapping actions means we don't have to call
+  store.dispatch('fetchUser')
+ */
+  methods: mapActions([
+    'fetchUser'
+  ])
 }
 </script>
 
